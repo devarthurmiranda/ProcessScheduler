@@ -25,9 +25,9 @@ public class Process {
 
     public void printProcess() {
         System.out.println("Process " + this.pid + " has been in the CPU " + this.numCpu + " times");
-        System.out.println("Process " + this.pid + " has been in the Blocked state " + this.numEntExi + " times");
-        System.out.println("Process " + this.pid + " has " + this.processTime + " of processing time");
-        System.out.println("Process " + this.pid + " has been in the CPU for " + this.programCounter + " cycles");
+        System.out.println("Process " + this.pid + " has " + this.numEntExi + " of I/O operations");
+        System.out.println("Process " + this.pid + " has " + this.processTime + " of processing cycles");
+        System.out.println("Process " + this.pid + " has " + this.programCounter + " of program time");
         System.out.println("Process " + this.pid + " state is " + this.processState);
         System.out.println();
     }
@@ -37,9 +37,9 @@ public class Process {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter("processLog.txt", true));
             writer.write("Process " + this.pid + " has been in the CPU " + this.numCpu + " times\n");
-            writer.write("Process " + this.pid + " has been in the Blocked state " + this.numEntExi + " times\n");
-            writer.write("Process " + this.pid + " has " + this.processTime + " of processing time\n");
-            writer.write("Process " + this.pid + " has been in the CPU for " + this.programCounter + " cycles\n");
+            writer.write("Process " + this.pid + " has " + this.numEntExi + " of I/O operations\n");
+            writer.write("Process " + this.pid + " has " + this.processTime + " of processing cycles\n");
+            writer.write("Process " + this.pid + " has " + this.programCounter + " of program time\n");
             writer.write("Process " + this.pid + " state is " + this.processState + "\n");
             writer.write("\n");
             writer.close();

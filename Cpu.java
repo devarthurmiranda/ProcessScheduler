@@ -5,37 +5,8 @@ public class Cpu {
     Random rand = new Random();
     private static int chance = 100;
 
-    private void checkState(Process process) {
-        // First quantum cycle case
-        if(process.getProcessState() == States.READY) {
-            process.setProcessState(States.RUNNING);
-            System.out.println("Process " + process.getPid() + " is now running");
-            process.setProgramCounter(process.getProgramCounter() + 1);
-            process.setProcessTime(process.getProcessTime() + 1);
-
-            // Block chance
-            if(rand.nextInt(chance) < 5) {
-                process.setProcessState(States.BLOCKED);
-                System.out.println("Process " + process.getPid() + " got blocked");
-                process.setNumEntExi(process.getNumEntExi() + 1);
-            }  
-        }
-
-        // Currently running case
-        if(process.getProcessState() == States.RUNNING) {
-            process.setProgramCounter(process.getProgramCounter() + 1);
-            process.setProcessTime(process.getProcessTime() + 1);
-
-            // Block chance
-            if(rand.nextInt(chance) < 5) {
-                process.setProcessState(States.BLOCKED);
-                System.out.println("Process " + process.getPid() + " got blocked");
-                process.setNumEntExi(process.getNumEntExi() + 1);
-            }
-        }
-    }
-
     public void run(Process process) {
+        process.setNumCpu(process.getNumCpu() + 1);
         // Setting process to exit case
         if(process.getCyclesNeeded() <= 0) {
             process.setProcessState(States.EXIT);
@@ -77,8 +48,34 @@ public class Cpu {
                 System.out.println("Process " + process.getPid() + " went from running to ready");
             }
             process.setCyclesNeeded(process.getCyclesNeeded() - QUANTUM);
-            process.setNumCpu(process.getNumCpu() + 1);
         }
         System.out.println("\n======================Quantum ended for process " + process.getPid()+"======================\n");
+    }
+
+    private void checkState(Process process) {
+        process.setProgramCounter(process.getProgramCounter() + 1);
+        process.setProcessTime(process.getProcessTime() + 1);
+        
+        // First quantum cycle case
+        if(process.getProcessState() == States.READY) {
+            process.setProcessState(States.RUNNING);
+            System.out.println("Process " + process.getPid() + " is now running");
+            // Block chance
+            if(rand.nextInt(chance) < 5) {
+                process.setProcessState(States.BLOCKED);
+                System.out.println("Process " + process.getPid() + " got blocked");
+                process.setNumEntExi(process.getNumEntExi() + 1);
+            }  
+        }
+
+        // Currently running case
+        if(process.getProcessState() == States.RUNNING) {
+            // Block chance
+            if(rand.nextInt(chance) < 5) {
+                process.setProcessState(States.BLOCKED);
+                System.out.println("Process " + process.getPid() + " got blocked");
+                process.setNumEntExi(process.getNumEntExi() + 1);
+            }
+        }
     }
 }
