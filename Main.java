@@ -1,6 +1,6 @@
 public class Main {
 
-     private static boolean allProcessesFinished(Process[] processes) {
+    private static boolean allProcessesFinished(Process[] processes) {
         for (Process p : processes) {
             if (p.getProcessState() != States.EXIT) {
                 return false;
@@ -9,6 +9,7 @@ public class Main {
         return true;
     }
 
+    // Making sure no process is running before starting the next quantum
     private static boolean noneRunning(Process[] processes){
         for(Process p : processes){
             if(p.getProcessState() == States.RUNNING){
@@ -32,11 +33,12 @@ public class Main {
         Process p9 = new Process(9, 10000);
 
         Process[] processes = {p0, p1, p2, p3, p4, p5, p6, p7, p8, p9};
-
         Cpu cpu = new Cpu();
 
+        // Running processes
         while(!allProcessesFinished(processes) && noneRunning(processes)) {
             for(Process p : processes) {
+                // If it is finished, process will not run
                 if(p.getProcessState()!=States.EXIT) {
                     cpu.run(p);
                 } else {
@@ -45,6 +47,8 @@ public class Main {
                 }
             }
         }
+
+        // Output
         System.out.println("\n=============All processes finished=============");
         for(Process p : processes) {
             p.printProcess();
